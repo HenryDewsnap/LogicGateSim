@@ -1,7 +1,7 @@
 import programInterpreter
 
 def main():
-    LGSInterpreter = logicGateSim.programInterpreter.interpreter("", ["xor", "not", "and", "or"])
+    LGSInterpreter = programInterpreter.interpreter("", ["xor", "not", "and", "or"])
     
     LGSInterpreter.createVariable({"name":"var1", "value":[0]})
     LGSInterpreter.createVariable({"name":"var44", "value":[1]})
