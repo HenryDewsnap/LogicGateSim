@@ -1,4 +1,4 @@
-import gateLoader
+import logicGateSim.gateLoader
 
 logging = True
 
@@ -14,7 +14,7 @@ class interpreter:
 
         self.memory = {}
         self.programStr = programStr
-        self.gates = gateLoader.importGates(gates)
+        self.gates = logicGateSim.gateLoader.importGates(gates)
         
         log("Interpreter Object Initialised.")
 
@@ -46,3 +46,17 @@ class interpreter:
         log(f"CREATING VARIABLE: {variableData['name']} || STORING: {variableData['value']}")
         self.memory[variableData['name']] = variableData['value']
         
+
+
+"""
+a = interpreter("", ["xor", "not", "and", "or"])
+
+a.createVariable({"name":"var1", "value":[0]})
+a.createVariable({"name":"var44", "value":[1]})
+a.executeGate({"gate":"xor", "inputs":"var1", "outputs":"var2"})
+a.executeGate({"gate":"not", "inputs":"var2", "outputs":"var3"})
+
+
+print(a.memory['var1'])
+print(a.memory['var2'])
+"""
