@@ -1,6 +1,6 @@
 import gateLoader
 
-logging = False
+logging = True
 
 
 
@@ -22,14 +22,19 @@ class interpreter:
 
     #Format: executionData = {"gate":"xor", "inputs":"[0,1]", "outputs":"nameOfOutputVar"}
     def executeGate(self, executionData):
+        
+        if type(executionData['inputs']) is str:
+            try:
+                log(f"Reading variable: {executionData['inputs']}")
+                executionData['inputs'] = self.memory[executionData['inputs']]
+                log(f"Variable Value: {executionData['inputs']}")
+            except:
+                exit(f"Variable {executionData['inputs']} not found.")
+            
+        executionData['inputs'] = str(executionData["inputs"]).replace(" ","")
+        
         log(f"EXECUTING: {executionData['gate']} || INPUTS: {executionData['inputs']} || OUTPUTS: {executionData['outputs']}")
-        self.memory[executionData['outputs']] = self.gates[executionData["gate"].lower()][str(executionData["inputs"]).replace(" ","")]
+        self.memory[executionData['outputs']] = self.gates[executionData["gate"].lower()][executionData["inputs"]]
 
     def createVariable(self, variableData):
         log(f"CREATING VARIABLE: {variableData['name']} || STORING: {variableData['value']}")
-
-a = interpreter("", ["xor", "not"])
-a.executeGate({"gate":"xor", "inputs":[0,1], "outputs":"var1"})
-a.executeGate({"gate":"not", "inputs":a.memory['var1'], "outputs":"var2"})
-print(a.memory["var1"])
-print(a.memory["var2"])
