@@ -15,7 +15,14 @@ class interpreter:
         self.memory = {}
         self.programStr = programStr
         self.gates = gateLoader.importGates(gates)
-        
+
+        self.gateNames = []
+        self.varFuncIdentifier = "var"
+        self.loopFuncIdentifier= "loop"
+
+        for gate in gates:
+            self.gateNames.append(gate)
+
         log("Interpreter Object Initialised.")
 
 
@@ -47,6 +54,27 @@ class interpreter:
         self.memory[variableData['name']] = variableData['value']
         
 
+    def decodeInstruction(self, instructionData):
+        if self.varFuncIdentifier in instructionData:
+            self.decodeVariable(instructionData)
+        
+        elif self.loopFuncIdentifier in instructionData:
+            self.decodeLoop(instructionData)
+
+        else:
+            for gateName in self.gateNames:
+                if gateName.lower() in instructionData.lower():
+                    self.decodeGate(instructionData)
+                    break
+
+    def decodeLoop(self, instructionData):
+        pass
+
+    def decodeGate(self, instructionData):
+        pass
+
+    def decodeVariable(self, instructionData):
+        pass
 
 """
 a = interpreter("", ["xor", "not", "and", "or"])
