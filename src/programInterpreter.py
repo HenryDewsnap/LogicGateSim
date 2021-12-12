@@ -1,4 +1,4 @@
-import logicGateSim.gateLoader
+import gateLoader
 
 logging = True
 
@@ -14,7 +14,7 @@ class interpreter:
 
         self.memory = {}
         self.programStr = programStr
-        self.gates = logicGateSim.gateLoader.importGates(gates)
+        self.gates = gateLoader.importGates(gates)
         
         log("Interpreter Object Initialised.")
 
