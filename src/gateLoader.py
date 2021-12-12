@@ -13,9 +13,8 @@ def importGates(names=[]):
     gates = {}
     for name in names:
         try:
-            current = json.load(open(f"gates/{name.lower()}.json"))
-            gates[current['Name']] = current['TruthTable']
+            current = json.load(open(f"gates/{name.lower()}.json", "r"))
+            gates[current['Name'].lower()] = current['TruthTable']
         except:
-            print(f"Gate: {name.lower()} not found.")
-    
+            exit(f"{name.lower()}.json not found.")
     return gates
