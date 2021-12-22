@@ -3,8 +3,8 @@ import json
 #Copy and pastable TruthTable:
 '''
 "[0,0]":[],
-"[1,0]":[],
 "[0,1]":[],
+"[1,0]":[],
 "[1,1]":[]
 '''
 
