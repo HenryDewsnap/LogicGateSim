@@ -12,5 +12,10 @@ def main():
     print(LGSInterpreter.memory['var1'])
     print(LGSInterpreter.memory['var2'])
 
+    LGSInterpreter.executeGate({"gate":"not", "inputs":"var44", "outputs":"var44"})
+
+    LGSInterpreter.conditional_goto("==", ["var1", "var44"], 10)
+    print(LGSInterpreter.pointer)
+
 if __name__ == "__main__":
     main()
