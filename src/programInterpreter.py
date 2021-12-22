@@ -1,8 +1,7 @@
 import gateLoader
+import parseProgram
 
-logging = True
-
-
+logging = False
 
 
 def log(msg):
@@ -12,6 +11,7 @@ class interpreter:
     def __init__(self, programStr, gates):
         log("Interpreter Object Created.")
 
+        self.pointer = 0
         self.memory = {}
         self.programStr = programStr
         self.gates = gateLoader.importGates(gates)
@@ -23,6 +23,8 @@ class interpreter:
         for gate in gates:
             self.gateNames.append(gate)
 
+        self.parser = parseProgram.parser(programStr, self.gateNames)
+
         log("Interpreter Object Initialised.")
 
 
@@ -32,7 +34,7 @@ class interpreter:
             varNames = executionData['inputs'].replace(" ","").split(",")
             executionData['inputs'] = list()
 
-            ##For connecting multiple variables.
+            ##For connecting multiple variables. (allowing you to use variable names as arguments).
             for var in varNames:
                 for x in self.memory[var]:
                     executionData['inputs'].append(x)
@@ -48,33 +50,23 @@ class interpreter:
         except:
             exit(f"Failed to execute")
 
+    ##Only supports two arguments currently A and B.
+    def conditional_goto(self, condition, args, goWhere):
+        new_args = {}
+        for arg in args:
+            if type(arg) is str:
+                try: new_args[arg] = self.memory[arg]
+                except: exit(f"{arg} not found in memory.")
+            else: new_args[str(arg)] = arg
+        
+        if eval(f"{new_args[args[0]]}{condition}{new_args[args[1]]}") == True:
+            self.pointer = goWhere
 
     def createVariable(self, variableData):
         log(f"CREATING VARIABLE: {variableData['name']} || STORING: {variableData['value']}")
         self.memory[variableData['name']] = variableData['value']
-        
 
-    def decodeInstruction(self, instructionData):
-        if self.varFuncIdentifier in instructionData:
-            self.decodeVariable(instructionData)
-        
-        elif self.loopFuncIdentifier in instructionData:
-            self.decodeLoop(instructionData)
 
-        else:
-            for gateName in self.gateNames:
-                if gateName.lower() in instructionData.lower():
-                    self.decodeGate(instructionData)
-                    break
-
-    def decodeLoop(self, instructionData):
-        pass
-
-    def decodeGate(self, instructionData):
-        pass
-
-    def decodeVariable(self, instructionData):
-        pass
 
 """
 a = interpreter("", ["xor", "not", "and", "or"])
